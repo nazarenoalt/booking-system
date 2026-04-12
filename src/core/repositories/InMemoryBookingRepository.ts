@@ -1,0 +1,50 @@
+import type {
+  Booking,
+  CreateBookingDto,
+  UpdateBookingDto,
+} from "@/core/models/booking.types";
+import type { IBookingRepository } from "@/core/repositories/IBookingRepository";
+
+const store = new Map<string, Booking>();
+
+class InMemoryBookingRepository implements IBookingRepository {
+  async findAll(): Promise<Booking[]> {
+    return Array.from(store.values());
+  }
+
+  async findById(id: string): Promise<Booking | null> {
+    return store.get(id) ?? null;
+  }
+
+  async findByDate(date: string): Promise<Booking[]> {
+    return Array.from(store.values()).filter((b) => b.date === date);
+  }
+
+  async create(dto: CreateBookingDto): Promise<Booking> {
+    store.set(dto.id, dto);
+    return dto;
+  }
+
+  async update(
+    id: string,
+    dto: UpdateBookingDto & { endTime: string },
+  ): Promise<Booking> {
+    const existing = store.get(id);
+    if (!existing) {
+      throw new Error(`Booking with id "${id}" not found`);
+    }
+    const updated: Booking = { ...existing, ...dto };
+    store.set(id, updated);
+    return updated;
+  }
+
+  async delete(id: string): Promise<void> {
+    const existing = store.get(id);
+    if (!existing) {
+      throw new Error(`Booking with id "${id}" not found`);
+    }
+    store.delete(id);
+  }
+}
+
+export const bookingRepository = new InMemoryBookingRepository();
