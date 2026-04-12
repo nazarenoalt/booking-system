@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       endTime: "", // service compute this
       duration: duration as Duration,
     });
-    
+
     return Response.json(booking, { status: 201 });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unexpected error";

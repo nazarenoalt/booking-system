@@ -25,8 +25,6 @@ export class InMemoryBookingRepository implements IBookingRepository {
   }
 
   async findByDate(date: string): Promise<Booking[]> {
-    console.log("STORE", store);
-
     return Array.from(store.values()).filter((b) => b.date === date);
   }
 

@@ -99,7 +99,6 @@ export function BookingForm({ bookableDates, booking }: BookingFormProps) {
 
     try {
       let response: Response;
-
       if (isEditMode) {
         response = await fetch(`/api/bookings/${booking.id}`, {
           method: "PUT",
