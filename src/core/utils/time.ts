@@ -1,4 +1,4 @@
-import type { Duration } from "@/core/models/booking";
+import type { Duration } from "@/core/models/booking.types";
 
 export const CLINIC_START = "09:00";
 export const CLINIC_END = "18:00";
@@ -59,13 +59,15 @@ export function getValidDurations(startTime: string): Duration[] {
  * Returns true if [aStart, aEnd) and [bStart, bEnd) overlap.
  * Half-open intervals: back-to-back bookings (aEnd === bStart) do NOT overlap.
  */
-export function doTimesOverlap(
+export function checkOverlap(
   aStart: string,
   aEnd: string,
   bStart: string,
-  bEnd: string
+  bEnd: string,
 ): boolean {
-  return toMinutes(aStart) < toMinutes(bEnd) && toMinutes(aEnd) > toMinutes(bStart);
+  return (
+    toMinutes(aStart) < toMinutes(bEnd) && toMinutes(aEnd) > toMinutes(bStart)
+  );
 }
 
 /** Formats a Date to "YYYY-MM-DD" using local time. */
