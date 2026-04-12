@@ -2,7 +2,7 @@ import type {
   Booking,
   CreateBookingDto,
   UpdateBookingDto,
-} from "@/core/models/booking";
+} from "@/core/models/booking.types";
 
 export interface IBookingRepository {
   findAll(): Promise<Booking[]>;
