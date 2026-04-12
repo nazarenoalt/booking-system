@@ -1,0 +1,1 @@
+- [getStartSlots slot alignment gotcha](feedback_getstartsslots_slot_alignment.md) — slots are 30-min-aligned; last slot for duration 45 is 17:00, not 17:15
