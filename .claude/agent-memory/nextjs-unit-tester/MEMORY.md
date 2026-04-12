@@ -1,1 +1,3 @@
 - [getStartSlots slot alignment gotcha](feedback_getstartsslots_slot_alignment.md) — slots are 30-min-aligned; last slot for duration 45 is 17:00, not 17:15
+- [BookingService singleton pattern](feedback_service_singleton_pattern.md) — class is not exported; use bookingService singleton + bookingRepository.clear() in tests
+- [Radix Select mock pattern](feedback_radix_select_mock.md) — mock @/components/ui/select with a context trick to propagate id from SelectTrigger to <select> for getByLabelText to work

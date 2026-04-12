@@ -303,19 +303,14 @@ describe('BookingForm', () => {
         expect(screen.getByLabelText('Duration')).toBeInTheDocument()
       })
 
-      it('does not render date select — shows read-only date text instead', () => {
+      it('renders date select in edit mode', () => {
         renderEditForm()
-        // In edit mode the date select is replaced by a plain <p> element.
-        // The label has no htmlFor so we query by text content.
-        expect(screen.getByText(EXISTING_BOOKING.date)).toBeInTheDocument()
-        // No <select> with id="date" should exist.
-        expect(document.getElementById('date')).toBeNull()
+        expect(screen.getByLabelText('Date')).toBeInTheDocument()
       })
 
-      it('does not render start time select — shows read-only start time text instead', () => {
+      it('renders start time select in edit mode', () => {
         renderEditForm()
-        expect(screen.getByText(EXISTING_BOOKING.startTime)).toBeInTheDocument()
-        expect(document.getElementById('startTime')).toBeNull()
+        expect(screen.getByLabelText('Start Time')).toBeInTheDocument()
       })
 
       it('pre-populates name field with booking name', () => {
@@ -354,10 +349,8 @@ describe('BookingForm', () => {
         expect(url).toBe(`/api/bookings/${EXISTING_BOOKING.id}`)
         expect(options?.method).toBe('PUT')
         const body = JSON.parse(options?.body as string)
-        expect(body).toEqual({ name: 'Updated Name', reason: 'Updated reason', duration: 30 })
-        // date and startTime must NOT be in the PUT payload
-        expect(body).not.toHaveProperty('date')
-        expect(body).not.toHaveProperty('startTime')
+        expect(body).toMatchObject({ name: 'Updated Name', reason: 'Updated reason', date: EXISTING_BOOKING.date, duration: 30 })
+        expect(typeof body.startTime).toBe('string')
       })
 
       it('navigates to / on successful PUT', async () => {
