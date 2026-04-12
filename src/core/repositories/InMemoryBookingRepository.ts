@@ -7,7 +7,11 @@ import type { IBookingRepository } from "@/core/repositories/IBookingRepository"
 
 const store = new Map<string, Booking>();
 
-class InMemoryBookingRepository implements IBookingRepository {
+export class InMemoryBookingRepository implements IBookingRepository {
+  clear(): void {
+    store.clear();
+  }
+
   async findAll(): Promise<Booking[]> {
     return Array.from(store.values());
   }
