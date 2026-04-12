@@ -5,7 +5,11 @@ import type {
 } from "@/core/models/booking.types";
 import type { IBookingRepository } from "@/core/repositories/IBookingRepository";
 
-const store = new Map<string, Booking>();
+// Anchor the store to `global` so it survives hot-module reloads in Next.js
+// dev mode. Without this, each module re-evaluation creates a fresh Map and
+// all in-memory data is lost between requests.
+const g = global as typeof global & { bookingStore?: Map<string, Booking> };
+const store = g.bookingStore ?? (g.bookingStore = new Map<string, Booking>());
 
 export class InMemoryBookingRepository implements IBookingRepository {
   clear(): void {
@@ -21,6 +25,8 @@ export class InMemoryBookingRepository implements IBookingRepository {
   }
 
   async findByDate(date: string): Promise<Booking[]> {
+    console.log("STORE", store);
+
     return Array.from(store.values()).filter((b) => b.date === date);
   }
 
