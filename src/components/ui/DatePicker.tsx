@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -43,11 +44,12 @@ export function DatePicker({
   bookableDates,
   disabled,
 }: DatePickerProps) {
+  const [open, setOpen] = useState(false);
   const selected = parseDate(value);
   const bookableSet = new Set(bookableDates);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -63,7 +65,10 @@ export function DatePicker({
           mode="single"
           selected={selected}
           onSelect={(date) => {
-            if (date) onChange(toDateString(date));
+            if (date) {
+              onChange(toDateString(date));
+              setOpen(false);
+            }
           }}
           disabled={(date) => !bookableSet.has(toDateString(date))}
           defaultMonth={selected}

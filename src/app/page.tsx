@@ -28,7 +28,7 @@ export default async function HomePage({
 
       <DateSelector selectedDate={date} bookableDates={bookableDates} />
 
-      <BookingList initialBookings={bookings} />
+      <BookingList key={date} initialBookings={bookings} />
     </main>
   );
 }
