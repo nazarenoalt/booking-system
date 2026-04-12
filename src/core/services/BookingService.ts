@@ -29,11 +29,11 @@ class BookingService {
     date: string | undefined,
     startTime: string | undefined,
     duration: Duration | undefined,
-  ): { endTime: string } {
-    if (!name || name.trim() === "") {
+  ): string {
+    if (!name || name.trim() === "" || name.trim().length > 100) {
       throw new Error("Name is required");
     }
-    if (!reason || reason.trim() === "") {
+    if (!reason || reason.trim() === "" || reason.trim().length > 500) {
       throw new Error("Reason is required");
     }
     if (!date || date.trim() === "") {
@@ -44,7 +44,7 @@ class BookingService {
     }
     if (!isDuration(duration)) {
       throw new Error(
-        `Duration must be one of: ${VALID_DURATIONS.join(", ")} minutes`,
+        `Duration must be one of these values: ${VALID_DURATIONS.join(", ")} minutes`,
       );
     }
 
@@ -62,11 +62,11 @@ class BookingService {
       );
     }
 
-    return { endTime: addMinutes(startTime, duration) };
+    return addMinutes(startTime, duration);
   }
 
   async createBooking(dto: CreateBookingDto): Promise<Booking> {
-    const { endTime } = this.validateAndComputeEndTime(
+    const endTime = this.validateAndComputeEndTime(
       dto.name,
       dto.reason,
       dto.date,
@@ -80,7 +80,7 @@ class BookingService {
         checkOverlap(dto.startTime, endTime, booking.startTime, booking.endTime)
       ) {
         throw new Error(
-          `This time slot overlaps with an existing booking (${booking.startTime}–${booking.endTime})`,
+          `This time slot is already reserved (${booking.startTime}–${booking.endTime})`,
         );
       }
     }
@@ -96,14 +96,11 @@ class BookingService {
     }
 
     const merged = {
-      name: dto.name ?? existing.name,
-      reason: dto.reason ?? existing.reason,
-      date: dto.date ?? existing.date,
-      startTime: dto.startTime ?? existing.startTime,
-      duration: dto.duration ?? existing.duration,
+      ...existing,
+      ...dto,
     };
 
-    const { endTime } = this.validateAndComputeEndTime(
+    const endTime = this.validateAndComputeEndTime(
       merged.name,
       merged.reason,
       merged.date,
@@ -123,7 +120,7 @@ class BookingService {
         )
       ) {
         throw new Error(
-          `This time slot overlaps with an existing booking (${booking.startTime}–${booking.endTime})`,
+          `This time slot is already reserved (${booking.startTime}–${booking.endTime})`,
         );
       }
     }
