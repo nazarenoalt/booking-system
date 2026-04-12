@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { DatePicker } from "@/components/ui/DatePicker";
 
 import type { BookingFormProps, FieldErrors, FormData } from "./types";
 import {
@@ -161,23 +162,13 @@ export function BookingForm({ bookableDates, booking }: BookingFormProps) {
 
       {/* Date */}
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="date">Date</Label>
-        <Select
+        <Label>Date</Label>
+        <DatePicker
           value={form.date}
-          onValueChange={(v) => setForm((p) => ({ ...p, date: v }))}
+          onChange={(v) => setForm((p) => ({ ...p, date: v }))}
+          bookableDates={bookableDates}
           disabled={isSubmitting}
-        >
-          <SelectTrigger id="date" className="w-full">
-            <SelectValue placeholder="Select a date" />
-          </SelectTrigger>
-          <SelectContent>
-            {bookableDates.map((d) => (
-              <SelectItem key={d} value={d}>
-                {d}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        />
       </div>
 
       {/* Start Time */}
