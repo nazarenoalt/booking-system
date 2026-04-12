@@ -46,10 +46,9 @@ All commit messages MUST follow the [Conventional Commits v1.0.0](https://www.co
 **Breaking changes:** append `!` after type/scope (e.g., `feat!:`) and add `BREAKING CHANGE:` footer.
 
 **Rules for commit messages:**
+- Commit no longer than 50 chars
 - Description is imperative mood, lowercase, no period at end (e.g., `add cancellation endpoint`)
-- Scope is optional but encouraged (e.g., `feat(booking): add cancellation endpoint`)
 - Body explains *why*, not *what*
-- Keep subject line under 72 characters
 - Never use vague messages like `fix stuff`, `wip`, or `updates`
 
 ## Workflow Procedures
@@ -64,7 +63,6 @@ All commit messages MUST follow the [Conventional Commits v1.0.0](https://www.co
 2. Stage only related changes — avoid mixing unrelated concerns in one commit.
 3. Craft a precise conventional commit message.
 4. Commit: `git commit -m "<message>"`
-5. For complex commits, use multi-line format with body and/or footer.
 6. If changes span multiple logical units, suggest splitting into multiple commits.
 
 ### Merging to Main
