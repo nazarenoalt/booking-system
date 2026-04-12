@@ -26,6 +26,26 @@ vi.mock('next/navigation', () => ({
 // context to propagate that id from SelectTrigger up to the wrapping Select
 // so the rendered <select> element receives the correct `id` and can be
 // found via its associated <label for="..."> in tests.
+vi.mock('@/components/ui/DatePicker', () => ({
+  DatePicker: ({
+    value,
+    onChange,
+    disabled,
+  }: {
+    value: string
+    onChange: (v: string) => void
+    disabled?: boolean
+  }) => (
+    <input
+      data-testid="date-picker"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      disabled={disabled}
+      readOnly={!onChange}
+    />
+  ),
+}))
+
 vi.mock('@/components/ui/select', async () => {
   const { createContext, useContext, useState } = await import('react')
 
@@ -148,9 +168,9 @@ describe('BookingForm', () => {
         expect(screen.getByLabelText('Reason')).toBeInTheDocument()
       })
 
-      it('renders date select', () => {
+      it('renders date picker', () => {
         renderCreateForm()
-        expect(screen.getByLabelText('Date')).toBeInTheDocument()
+        expect(screen.getByTestId('date-picker')).toBeInTheDocument()
       })
 
       it('renders start time select', () => {
@@ -303,9 +323,9 @@ describe('BookingForm', () => {
         expect(screen.getByLabelText('Duration')).toBeInTheDocument()
       })
 
-      it('renders date select in edit mode', () => {
+      it('renders date picker in edit mode', () => {
         renderEditForm()
-        expect(screen.getByLabelText('Date')).toBeInTheDocument()
+        expect(screen.getByTestId('date-picker')).toBeInTheDocument()
       })
 
       it('renders start time select in edit mode', () => {
