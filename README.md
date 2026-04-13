@@ -26,7 +26,7 @@ npm run test:watch  # watch mode
 | UI | Tailwind, shadcn/ui |
 | Testing | Vitest, React Testing Library |
 | Storage | In-memory |
-| Claude Code | Agent |
+| Agent | Claude Code |
 
 ## Approach
 - Architecture: I decided to organize the functionalities in three folders
