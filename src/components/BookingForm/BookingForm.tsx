@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { toast } from "sonner";
 import { DatePicker } from "@/components/ui/DatePicker";
 
 import type { BookingFormProps, FieldErrors, FormData } from "./types";
@@ -120,6 +121,7 @@ export function BookingForm({ bookableDates, booking }: BookingFormProps) {
         return;
       }
 
+      toast.success(isEditMode ? "Appointment updated." : "Appointment booked!");
       router.push("/");
     } catch {
       setApiError("Network error. Please check your connection and try again.");
